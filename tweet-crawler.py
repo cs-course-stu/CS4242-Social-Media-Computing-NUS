@@ -6,6 +6,9 @@ import csv
 """
 Y29uc3VtZXJfa2V5ID0gJiMzOTtoVVRQQ240TVU0dFlGOFZmZHd4WWh2RUhZJiMzOTsNCmNvbnN1bWVyX3NlY3JldCA9ICYjMzk7MGM2R3lnQUlENGMzMElxd1BDQWJZUFJ2WUpsVWQ1NHRDaHBXSWNyT3lFbmprZmJ3YUEmIzM5Ow0KYWNjZXNzX3Rva2VuID0gJiMzOTsxMTM4NDIyMDQyMzUxMzc0MzM3LVNoOWNYU0o3SWpGMENuVWszcjFVcm1UVUxGUnUzTiYjMzk7DQphY2Nlc3NfdG9rZW5fc2VjcmV0ID0gJiMzOTsxSHlLZEpGRjVObHFLWnRTMlJ1bWFHY2lVaWUzc2FMT3hNaGxjYndHT2xMZHUmIzM5Ow==
 """
+def judge_pure_english(keyword):
+    return all(ord(c) < 128 for c in keyword)
+
 
 class TweetCrawler:
     def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret):
@@ -45,7 +48,7 @@ class TweetCrawler:
             str = ""
             if(tweet.entities['hashtags']):
                 for item in tweet.entities['hashtags']:
-                    if not item['text'].isalnum():
+                    if not judge_pure_english(item['text']):
                         continue
                     str = str + ', ' + item['text']
                 str = str.replace(', ', '', 1)
@@ -102,7 +105,7 @@ class TweetCrawler:
             str_tag = ""
             if(tweet.entities['hashtags']):
                 for item in tweet.entities['hashtags']:
-                    if not item['text'].isalnum():
+                    if not judge_pure_english(item['text']):
                         continue
                     str_tag = str_tag + ', ' + item['text']
                 str_tag = str_tag.replace(', ', '', 1)
@@ -141,11 +144,11 @@ class TweetCrawler:
                 csvWriter.writerow([str_photo, str_tag])
         print("\n")
 
-if __name__ == '__main__':
-
-    tweet_crawler = TweetCrawler(
-        consumer_key, consumer_secret, access_token, access_token_secret)
-    tweet_crawler.crawler_train_text(extend=False, time="2019-10-13", item=200)
-    tweet_crawler.crawler_test_text(extend=False, time="2019-10-13", item=200)
-    tweet_crawler.crawler_train_photo(time="2019-10-13", item=200)
-    tweet_crawler.crawler_test_photo(time="2019-10-13", item=200)
+# if __name__ == '__main__':
+#
+#     tweet_crawler = TweetCrawler(
+#         consumer_key, consumer_secret, access_token, access_token_secret)
+#     tweet_crawler.crawler_train_text(extend=False, time="2019-10-13", item=200)
+#     tweet_crawler.crawler_test_text(extend=False, time="2019-10-13", item=200)
+#     tweet_crawler.crawler_train_photo(time="2019-10-13", item=200)
+#     tweet_crawler.crawler_test_photo(time="2019-10-13", item=200)
