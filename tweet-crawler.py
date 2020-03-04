@@ -6,6 +6,8 @@ import csv
 """
 Y29uc3VtZXJfa2V5ID0gJiMzOTtoVVRQQ240TVU0dFlGOFZmZHd4WWh2RUhZJiMzOTsNCmNvbnN1bWVyX3NlY3JldCA9ICYjMzk7MGM2R3lnQUlENGMzMElxd1BDQWJZUFJ2WUpsVWQ1NHRDaHBXSWNyT3lFbmprZmJ3YUEmIzM5Ow0KYWNjZXNzX3Rva2VuID0gJiMzOTsxMTM4NDIyMDQyMzUxMzc0MzM3LVNoOWNYU0o3SWpGMENuVWszcjFVcm1UVUxGUnUzTiYjMzk7DQphY2Nlc3NfdG9rZW5fc2VjcmV0ID0gJiMzOTsxSHlLZEpGRjVObHFLWnRTMlJ1bWFHY2lVaWUzc2FMT3hNaGxjYndHT2xMZHUmIzM5Ow==
 """
+
+
 def judge_pure_english(keyword):
     return all(ord(c) < 128 for c in keyword)
 
@@ -20,53 +22,99 @@ class TweetCrawler:
         self.auth.set_access_token(access_token, access_token_secret)
         self.api = tw.API(self.auth, wait_on_rate_limit=True)
 
-    def get_tweet(self, extend, time, item):
+    def get_tweet(self, extend, time, item, expression):
         if (extend == False):
-            tweets = tw.Cursor(self.api.search, q="*",
-                                    lang="en",
-                                    since=time,
-                                    ).items(item)
+            tweets = tw.Cursor(self.api.search, q=expression,
+                               lang="en",
+                               since=time,
+                               include_entities=True
+                               ).items(item)
         else:
-            tweets = tw.Cursor(self.api.search, q="*",
-                                    lang="en",
-                                    since=time,
-                                    tweet_mode="extended"
-                                    ).items(item)
+            tweets = tw.Cursor(self.api.search, q=expression,
+                               lang="en",
+                               since=time,
+                               tweet_mode="extended",
+                               include_entities=True
+                               ).items(item)
         return tweets
 
-    def crawler_train_text(self, extend, time, item):
-        csvFile = open('input.train.text.csv', 'w+')
+    def crawler_train_text(self, in_dir, extend, time, item, expression):
+        file_dir = in_dir + 'input.train.text.csv'
+        print(file_dir)
+        csvFile = open(file_dir, 'a+')
         csvWriter = csv.writer(csvFile)
-        print("crawler training text data", end = "")
+        print("crawler training text data", end="")
         count = 0
-        tweets = self.get_tweet(extend, time, item)
-        
-        for tweet in tweets:
-            count = count + 1
-            if (count % 50 == 0):
-                print(".", end='', flush=True)
-            str = ""
-            if(tweet.entities['hashtags']):
-                for item in tweet.entities['hashtags']:
-                    if not judge_pure_english(item['text']):
-                        continue
-                    str = str + ', ' + item['text']
-                str = str.replace(', ', '', 1)
-            if((extend == False) and ("RT" not in tweet.text) and (str)):
-                csvWriter.writerow([tweet.text, str])
-            if((extend == True) and ("RT" not in tweet.full_text) and (str)):
-                csvWriter.writerow([tweet.full_text, str])
+        tweets = self.get_tweet(extend, time, item, expression)
+
+        # c = tw.Cursor(self.api.search,
+        #                q=expression,
+        #               lang="en",
+        #               tweet_mode="extended",
+        #                include_entities=True).items()
+        # count = 0
+        # while True:
+        #     try:
+        #         count = count + 1
+        #         tweet = c.next()
+        #         # Insert into db
+        #         print(count)
+        #     except tw.TweepError:
+        #         time.sleep(60 * 15)
+        #         continue
+        #     except StopIteration:
+        #         break
+        while True:
+            try:
+                tweet = tweets.next()
+                count = count + 1
+                if (count % 50 == 0):
+                    print(".", end='', flush=True)
+                str = ""
+                if(tweet.entities['hashtags']):
+                    for item in tweet.entities['hashtags']:
+                        if not judge_pure_english(item['text']):
+                            continue
+                        str = str + ', ' + item['text']
+                    str = str.replace(', ', '', 1)
+                if((extend == False) and ("RT" not in tweet.text) and (str)):
+                    csvWriter.writerow([tweet.text, str])
+                if((extend == True) and ("RT" not in tweet.full_text) and (str)):
+                    csvWriter.writerow([tweet.full_text, str])
+            except tw.RateLimitError:
+                time.sleep(60 * 15)
+                continue
+            except StopIteration:
+                break
+
+        # for tweet in tweets:
+        #     count = count + 1
+        #     if (count % 50 == 0):
+        #         print(".", end='', flush=True)
+        #     str = ""
+        #     if(tweet.entities['hashtags']):
+        #         for item in tweet.entities['hashtags']:
+        #             if not judge_pure_english(item['text']):
+        #                 continue
+        #             str = str + ', ' + item['text']
+        #         str = str.replace(', ', '', 1)
+        #     if((extend == False) and ("RT" not in tweet.text) and (str)):
+        #         csvWriter.writerow([tweet.text, str])
+        #     if((extend == True) and ("RT" not in tweet.full_text) and (str)):
+        #         csvWriter.writerow([tweet.full_text, str])
         print("\n")
 
-    def crawler_test_text(self, extend, time, item):
-        csvFile = open('input.test.text.csv', 'w+')
+    def crawler_test_text(self, in_dir, extend, time, item):
+        file_dir = in_dir + 'input.test.text.csv'
+        csvFile = open(file_dir, 'w+')
         csvWriter = csv.writer(csvFile)
-        print("crawler testing text data", end = "")
+        print("crawler testing text data", end="")
         count = 0
         tweets = self.get_tweet(extend, time, item)
 
         for tweet in tweets:
             count = count + 1
+            print(count)
             if (count % 50 == 0):
                 print(".", end='', flush=True)
             str = ""
@@ -100,8 +148,8 @@ class TweetCrawler:
                             item['media_url_https']
             str_photo = str_photo.replace(', ', '', 1)
             if (not str_photo):
-                continue # filter out non-media tweet
-                
+                continue  # filter out non-media tweet
+
             str_tag = ""
             if(tweet.entities['hashtags']):
                 for item in tweet.entities['hashtags']:
