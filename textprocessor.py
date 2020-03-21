@@ -21,11 +21,12 @@ from sklearn.metrics import roc_curve, auc
 # from nlpaug.util import Action
 import pandas as pd
 
-# https://www.webopedia.com/quick_ref/Twitter_Dictionary_Guide.asp
-# https://www.socialmediatoday.com/content/top-twitter-abbreviations-you-need-know
-# https://digiphile.info/2009/06/11/top-50-twitter-acronyms-abbreviations-and-initialisms/
-# https://bitrebels.com/social/twitter-dictionary-35-twitter-abbreviations/
-
+"""Reference
+https://www.webopedia.com/quick_ref/Twitter_Dictionary_Guide.asp
+https://www.socialmediatoday.com/content/top-twitter-abbreviations-you-need-know
+https://digiphile.info/2009/06/11/top-50-twitter-acronyms-abbreviations-and-initialisms/
+https://bitrebels.com/social/twitter-dictionary-35-twitter-abbreviations/
+"""
 class TextProcessor:
     """ class TextProcessor is a class dealing with crawling tweets
     Args:
@@ -72,7 +73,6 @@ class TextProcessor:
         for line in iter(f):
             if line.lower() not in self.hashtag:
                 self.hashtag.add(line.lower().replace('\n','').replace('#',''))
-        print(self.hashtag)
         print('load hashtag successfully')
 
     """ Irrelevant hashtag filtering
