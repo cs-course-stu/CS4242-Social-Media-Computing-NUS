@@ -122,7 +122,7 @@ class TextProcessor:
     """
 
     def drop_tweet(self, text):
-        if (len(text.split()) <= 3):
+        if (len(str(text).split()) <= 3):
             return ""
         else:
             return text
