@@ -75,6 +75,22 @@ class TextProcessor:
         print(self.hashtag)
         print('load hashtag successfully')
 
+    """ Irrelevant hashtag filtering
+    Args:
+        text: text to be filtered
+    
+    Returns:
+        ' '.join(rst): filtered hashtag
+    """
+
+    def _del_hashtag(self, text):
+        tmp_list = str(text).split(',')
+        rst = []
+        for i in range(len(tmp_list)):
+            if (tmp_list[i].lower().replace(' ', '') in self.hashtag):
+                rst.append(tmp_list[i].lower().replace(' ', ''))
+        return ' '.join(rst)
+
     """ Informal language normalization
     Args:
         text: text to be normailzed
@@ -114,25 +130,11 @@ class TextProcessor:
         
         return text
 
-    """ Irrelevant hashtag filtering
-    Args:
-        text: text to be filtered
-    
-    Returns:
-        ' '.join(rst): filtered hashtag
-    """
 
-    def _del_hashtag(self, text):
-        tmp_list = text.split(',')
-        rst = []
-        for i in range(len(tmp_list)):
-            if (tmp_list[i].lower().replace(' ','') in self.hashtag):
-                rst.append(tmp_list[i].lower().replace(' ', ''))
-        return ' '.join(rst)
 
 if __name__ == '__main__':
     textprocessor = TextProcessor('/Users/wangyifan/Desktop')
     textprocessor._load_hashtag()
     print(textprocessor._del_hashtag(
-        "blessed, thankful, stunts, actor, actorslife, running, marlonperrier, darkwaterent, darkwaterentertainment, chameleon"))
+        "Science, DataScience, neuroscience, Neurology"))
     
