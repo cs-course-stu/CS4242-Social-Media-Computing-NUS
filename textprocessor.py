@@ -66,10 +66,11 @@ class TextProcessor:
 
     def _cleanup(self, text):
         # drop http[s]://*
-        text = re.sub(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+','',text)
+        text = re.sub(
+            r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', str(text))
 
         # drop something liek @EP_President
-        text = re.sub(u"\@.*?\s", '', text)
+        text = re.sub(u"\@.*?\s", '', str(text))
 
         # drop # of hashtag within sentence
         text = text.replace('#',' ')
