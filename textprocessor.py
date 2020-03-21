@@ -89,7 +89,7 @@ class TextProcessor:
         for i in range(len(tmp_list)):
             if (tmp_list[i].lower().replace(' ', '') in self.hashtag):
                 rst.append(tmp_list[i].lower().replace(' ', ''))
-        return ' '.join(rst)
+        return ', '.join(rst)
 
     """ Informal language normalization
     Args:
