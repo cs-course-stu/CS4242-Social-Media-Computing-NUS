@@ -36,13 +36,13 @@ class TextProcessor:
         access_token_secret: Twitter API: access_token_secret
     """
 
-    def __init__(self, in_dir ):
+    def __init__(self, in_dir):
         self.in_dir = in_dir
         self.dictionary = {}
 
     """ load local dictionary and build index
     """
-    
+
     def _load_dictioanry(self):
         print('loading dictionary...')
         if (not os.path.exists(self.in_dir)):
@@ -53,9 +53,16 @@ class TextProcessor:
         # load dictionary and build index
         for line in iter(f):
             line = line.split(' ', 1)
-            #print(line[0].lower())
             if line[0].lower() not in self.dictionary:
                 self.dictionary[line[0].lower()] = line[1].replace('\n', '').lower()
+        print('load dictionary successfully...')
+
+    def _informal_norm(self,text):
+        tmp_list = text.split()
+        for i in range(len(tmp_list)):
+            if (tmp_list[i].lower() in self.dictionary):
+                tmp_list[i] = self.dictionary[tmp_list[i].lower()]
+        return ' '.join(tmp_list)
 
     def _cleanup(self, text):
         # drop http[s]://*
@@ -71,3 +78,7 @@ class TextProcessor:
         text = text.encode('ascii', 'ignore').decode('ascii')
         
         return text
+
+
+if __name__ == '__main__':
+    textprocessor = TextProcessor('/Users/wangyifan/Desktop')
