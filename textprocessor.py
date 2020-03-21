@@ -130,11 +130,22 @@ class TextProcessor:
         
         return text
 
+    """ drop tweets whose length <= 3
+    Args:
+        text: text to be filtered
+    
+    Returns:
+        text: filtered text
+    """
 
+    def _drop_tweet(self, text):
+        if (len(text.split()) <= 3):
+            return ""
+        else:
+            return text
 
 if __name__ == '__main__':
     textprocessor = TextProcessor('/Users/wangyifan/Desktop')
     textprocessor._load_hashtag()
     print(textprocessor._del_hashtag(
-        "Science, DataScience, neuroscience, Neurology"))
-    
+          "i am wang "))
