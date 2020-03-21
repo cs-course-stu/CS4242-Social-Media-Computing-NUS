@@ -71,7 +71,7 @@ class TextProcessor:
         # load dictionary and build index
         for line in iter(f):
             if line.lower() not in self.hashtag:
-                self.hashtag.add(line.lower().replace('\n',''))
+                self.hashtag.add(line.lower().replace('\n','').replace('#',''))
         print(self.hashtag)
         print('load hashtag successfully')
 
@@ -114,9 +114,25 @@ class TextProcessor:
         
         return text
 
-    # def _del_hashtag(self.text):
+    """ Irrelevant hashtag filtering
+    Args:
+        text: text to be filtered
+    
+    Returns:
+        ' '.join(rst): filtered hashtag
+    """
 
+    def _del_hashtag(self, text):
+        tmp_list = text.split(',')
+        rst = []
+        for i in range(len(tmp_list)):
+            if (tmp_list[i].lower().replace(' ','') in self.hashtag):
+                rst.append(tmp_list[i].lower().replace(' ', ''))
+        return ' '.join(rst)
 
 if __name__ == '__main__':
     textprocessor = TextProcessor('/Users/wangyifan/Desktop')
     textprocessor._load_hashtag()
+    print(textprocessor._del_hashtag(
+        "blessed, thankful, stunts, actor, actorslife, running, marlonperrier, darkwaterent, darkwaterentertainment, chameleon"))
+    
