@@ -1,4 +1,5 @@
 import os
+import re
 import pandas as pd
 
 """Reference
@@ -17,20 +18,22 @@ class TextProcessor:
         access_token_secret: Twitter API: access_token_secret
     """
 
-    def __init__(self, in_dir):
+    def __init__(self, in_dir, dictionary_file, hashtag_file):
         self.in_dir = in_dir
         self.hashtag = set()
         self.dictionary = {}
+        self.dictionary_file = dictionary_file
+        self.hashtag_file = hashtag_file
 
     """ load local dictionary and build index
     """
 
-    def _load_dictioanry(self):
+    def load_dictioanry(self):
         print('loading dictionary...')
         if (not os.path.exists(self.in_dir)):
             print("wrong file path!")
             sys.exit(2)
-        f = open(self.in_dir+"/"+'dictionary.txt')
+        f = open(self.in_dir+"/"+self.dictionary_file)
 
         # load dictionary and build index
         for line in iter(f):
@@ -42,12 +45,12 @@ class TextProcessor:
     """ load local hashtag and build set
     """
 
-    def _load_hashtag(self):
+    def load_hashtag(self):
         print('loading hashtag...')
         if (not os.path.exists(self.in_dir)):
             print("wrong file path!")
             sys.exit(2)
-        f = open(self.in_dir+"/"+'hashtag.txt')
+        f = open(self.in_dir+"/"+self.hashtag_file)
 
         # load dictionary and build index
         for line in iter(f):
@@ -63,7 +66,7 @@ class TextProcessor:
         ' '.join(rst): filtered hashtag
     """
 
-    def _del_hashtag(self, text):
+    def del_hashtag(self, text):
         tmp_list = str(text).split(',')
         rst = []
         for i in range(len(tmp_list)):
@@ -79,7 +82,7 @@ class TextProcessor:
         ' '.join(tmp_list): normalized text
     """
 
-    def _informal_norm(self,text):
+    def informal_norm(self,text):
         tmp_list = text.split()
         for i in range(len(tmp_list)):
             if (tmp_list[i].lower() in self.dictionary):
@@ -94,7 +97,7 @@ class TextProcessor:
         text: filtered text
     """
 
-    def _cleanup(self, text):
+    def cleanup(self, text):
         # drop http[s]://*
         text = re.sub(
             r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', str(text))
@@ -118,14 +121,25 @@ class TextProcessor:
         text: filtered text
     """
 
-    def _drop_tweet(self, text):
+    def drop_tweet(self, text):
         if (len(text.split()) <= 3):
             return ""
         else:
             return text
 
 if __name__ == '__main__':
-    textprocessor = TextProcessor('/Users/wangyifan/Desktop')
-    textprocessor._load_hashtag()
-    print(textprocessor._del_hashtag(
-          "i am wang "))
+    textprocessor = TextProcessor('/Users/wangyifan/Desktop', 'dictionary.txt', 'hashtag.txt')
+    textprocessor.load_dictioanry()
+    textprocessor.load_hashtag()
+    dat = pd.read_csv(
+        '/Users/wangyifan/Desktop/input.train.text.csv', header=None)
+    dat.columns = ['tweet', 'hashtag']
+    dat['tweet'] = dat['tweet'].apply(textprocessor.cleanup)
+    dat['tweet'] = dat['tweet'].apply(textprocessor.informal_norm)
+
+    dat['hashtag'] = dat['hashtag'].apply(textprocessor.del_hashtag)
+    dat = dat.drop(dat[dat['hashtag'].map(len) < 1].index)
+
+    dat['tweet'] = dat['tweet'].apply(textprocessor.drop_tweet)
+    dat = dat.drop(dat[dat['tweet'].map(len) < 1].index)
+    print(dat.shape)
