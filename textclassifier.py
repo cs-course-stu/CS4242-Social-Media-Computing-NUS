@@ -12,8 +12,8 @@ class TextClassifier:
         self.dictionary_file = dictionary_file
         self.hashtag_file = hashtag_file
         self.input_file = input_file
-        self.train_file = train_file
-        self.valid_file = valid_file
+        self.train_file = None
+        self.valid_file = None
         self.model_dir = model_dir
 
     def load_raw_data(self):
@@ -55,29 +55,31 @@ class TextClassifier:
                 dat[tmp_list[j]][i] = 1
         return dat.drop(columns=['hashtag'])
 
-        def split_data(self,data):
-            self.train_file, self.valid_file = np.split(
-                data.sample(frac=1), [int(.7*len(data))])
+    def split_data(self,data):
+        self.train_file, self.valid_file = np.split(
+            data.sample(frac=1), [int(.7*len(data))])
         
-        def save_to_file(self):
-            self.train_file.to_csv(self.in_dir + '/' +
-                                   "train.csv", index=False, header=True)
-            self.valid_file.to_csv(self.in_dir + '/' +
-                                   "valid.csv", index=False, header=True)
+    def save_to_file(self):
+        self.train_file.to_csv(self.in_dir + '/' +
+                               "train.csv", index=False, header=True)
+        self.valid_file.to_csv(self.in_dir + '/' +
+                               "valid.csv", index=False, header=True)
             
-        def predict(self, text):
-            predictor = BertClassificationPredictor(
-                model_path=self.in_dir + '/' +self.model_dir,
-                label_path=self.in_dir,  # location for labels.csv file
-                multi_label=True,
-                model_type='xlnet',
-                do_lower_case=True)
-            prediction = predictor.predict(str(text))
-            return prediction
+    def predict(self, text):
+        predictor = BertClassificationPredictor(
+            model_path=self.in_dir + '/' +self.model_dir,
+            label_path=self.in_dir + '/labels',  # location for labels.csv file
+            multi_label=True,
+            # model_type='xlnet',
+            do_lower_case=True)
+        prediction = predictor.predict(str(text))
+        return prediction
 
 if __name__ == '__main__':
     textclassifier = TextClassifier(
-        '/Users/wangyifan/Desktop', 'dictionary.txt', 'hashtag.txt', 'input.train.text.csv')
+        '/Users/wangyifan/Google Drive/multi-label-classification', 'dictionary.txt', 'hashtag.txt', 'input.train.text.csv')
     
-    data = textclassifier.load_raw_data()
-    print(data[34234:34235])
+    # data = textclassifier.load_raw_data()
+    # print(data[34234:34235])
+    string = "i like running"
+    print(textclassifier.predict(string))
