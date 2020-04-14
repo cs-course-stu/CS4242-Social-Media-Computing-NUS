@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import pandas as pd
 
 """Reference
@@ -39,7 +40,8 @@ class TextProcessor:
         for line in iter(f):
             line = line.split(' ', 1)
             if line[0].lower() not in self.dictionary:
-                self.dictionary[line[0].lower()] = line[1].replace('\n', '').lower()
+                self.dictionary[line[0].lower()] = line[1].replace(
+                    '\n', '').lower()
         print('load dictionary successfully')
 
     """ load local hashtag and build set
@@ -55,7 +57,8 @@ class TextProcessor:
         # load dictionary and build index
         for line in iter(f):
             if line.lower() not in self.hashtag:
-                self.hashtag.add(line.lower().replace('\n','').replace('#',''))
+                self.hashtag.add(line.lower().replace(
+                    '\n', '').replace('#', ''))
         print('load hashtag successfully')
 
     """ Irrelevant hashtag filtering
@@ -82,7 +85,7 @@ class TextProcessor:
         ' '.join(tmp_list): normalized text
     """
 
-    def informal_norm(self,text):
+    def informal_norm(self, text):
         tmp_list = text.split()
         for i in range(len(tmp_list)):
             if (tmp_list[i].lower() in self.dictionary):
@@ -106,7 +109,7 @@ class TextProcessor:
         text = re.sub(u"\@.*?\s", '', str(text))
 
         # drop # of hashtag within sentence
-        text = text.replace('#',' ')
+        text = text.replace('#', ' ')
 
         #  remove emojis
         text = text.encode('ascii', 'ignore').decode('ascii')
@@ -123,7 +126,7 @@ class TextProcessor:
 
     def drop_tweet(self, text):
         if (len(str(text).split()) <= 3):
-            return ""
+            return ''
         else:
             return text
 
