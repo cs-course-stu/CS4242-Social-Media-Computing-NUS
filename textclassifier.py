@@ -1,11 +1,11 @@
 from textprocessor import TextProcessor
 import pandas as pd
 import numpy as np
-
+from fast_bert.prediction import BertClassificationPredictor
 
 class TextClassifier:
 
-    def __init__(self, in_dir, dictionary_file, hashtag_file, input_file):
+    def __init__(self, in_dir, dictionary_file, hashtag_file, input_file, model_dir="model_out"):
         self.in_dir = in_dir
         self.hashtag = set()
         self.dictionary = {}
@@ -14,7 +14,7 @@ class TextClassifier:
         self.input_file = input_file
         self.train_file = train_file
         self.valid_file = valid_file
-
+        self.model_dir = model_dir
 
     def load_raw_data(self):
         textprocessor = TextProcessor(
@@ -65,7 +65,15 @@ class TextClassifier:
             self.valid_file.to_csv(self.in_dir + '/' +
                                    "valid.csv", index=False, header=True)
             
-
+        def predict(self, text):
+            predictor = BertClassificationPredictor(
+                model_path=self.in_dir + '/' +self.model_dir,
+                label_path=self.in_dir,  # location for labels.csv file
+                multi_label=True,
+                model_type='xlnet',
+                do_lower_case=True)
+            prediction = predictor.predict(str(text))
+            return prediction
 
 if __name__ == '__main__':
     textclassifier = TextClassifier(
