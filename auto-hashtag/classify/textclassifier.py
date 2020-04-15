@@ -61,9 +61,9 @@ class TextClassifier:
         
     def save_to_file(self):
         self.train_file.to_csv(self.in_dir + '/' +
-                               "train.csv", index=False, header=True)
+                               "train.csv", index=False, header=False)
         self.valid_file.to_csv(self.in_dir + '/' +
-                               "valid.csv", index=False, header=True)
+                               "valid.csv", index=False, header=False)
             
     def predict(self, text):
         predictor = BertClassificationPredictor(
