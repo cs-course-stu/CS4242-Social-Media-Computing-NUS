@@ -72,8 +72,11 @@ class TextClassifier:
             multi_label=True,
             # model_type='xlnet',
             do_lower_case=True)
-        prediction = predictor.predict(str(text))
-        return prediction
+        prediction = predictor.predict(str(text))[:7]
+        rst_list = []
+        for i in range(len(prediction)):
+            rst_list.append(prediction[i][0])
+        return rst_list
 
 if __name__ == '__main__':
     textclassifier = TextClassifier(
@@ -81,5 +84,7 @@ if __name__ == '__main__':
     
     # data = textclassifier.load_raw_data()
     # print(data[34234:34235])
-    string = "i like running"
-    print(textclassifier.predict(string))
+    string = "fuck trump"
+    print(string)
+    result = textclassifier.predict(string)
+    print(result)
