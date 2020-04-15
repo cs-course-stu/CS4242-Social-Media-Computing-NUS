@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% csrf_token %}
+<head>
+<title></title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- description -->
+<meta name="description" content="Login Form - Responsive Template">
+<!-- <link rel="shortcut icon" href="images/favicon.ico"> -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<!-- Material Design Icons CSS -->
+<link rel="stylesheet" href="{% static 'css/materialdesignicons.css' %}">
+<!-- Bootstrap Checkbox CSS -->
+<link rel="stylesheet" href="{% static 'css/awesome-bootstrap-checkbox.css' %}">
+<!-- Rippler CSS -->
+<link rel="stylesheet" href="{% static 'css/rippler.min.css' %}">
+<!-- Style CSS -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!-- Responsive  CSS -->
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+<script type="text/javascript">
+function dosubmit(){
+    location.href='?';
+}
+</script>
+
+<style type="text/css">
+    body{ font-family:"SF Mono", Arial, sans-serif;} #main{border:none; background:none;}
+    body,ul,li,h1,h2,h3,p,form{margin:0;padding:0;}
+    a{color:#444;text-decoration:none;}a:hover{color:red;}
+    
+    /* tagscloud */
+    #tagscloud{width:250px;height:260px;position:relative;font-size:35px;color:#333;margin:20px auto 0;text-align:center;}
+    #tagscloud a{position:absolute;top:0px;left:0px;color:#333;font-family:Arial;text-decoration:none;margin:0 10px 15px 0;line-height:35px;text-align:center;font-size:20px;padding:1px 5px;display:inline-block;border-radius:3px;}
+    #tagscloud a.tagc1{background:#CC9999;color:#fff;}
+    #tagscloud a.tagc2{background:#66CCCC;color:#fff;}
+    #tagscloud a.tagc3{background:#FFCCCC;color:#fff;}
+    #tagscloud a.tagc4{background:#666633;color:#fff;}
+    #tagscloud a.tagc5{background:#FF9966;color:#fff;}
+    #tagscloud a.tagc6{background:#FF6666;color:#fff;}
+    #tagscloud a.tagc7{background:#CCCCCC;color:#fff;}
+    #tagscloud a.tagc8{background:#CCCCFF;color:#fff;}
+    #tagscloud a.tagc9{background:#CCFFCC;color:#fff;}
+    #tagscloud a.tagc10{background:#CCFF99;color:#fff;}
+    #tagscloud a.tagc11{background:#99CC33;color:#fff;}
+    #tagscloud a.tagc12{background:#99CC99;color:#fff;}
+    #tagscloud a.tagc13{background:#99CCCC;color:#fff;}
+    #tagscloud a.tagc14{background:#FFCC99;color:#fff;}
+    #tagscloud a.tagc15{background:#996699;color:#fff;}
+    #tagscloud a.tagc16{background:#666699;color:#fff;}
+    #tagscloud a.tagc17{background:#CCCC33;color:#fff;}
+    #tagscloud a:hover{color:#fff;background:#CCCCCC;}
+
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.7);
+        height: 55px;
+    }
+    .u-btn-selectfile{
+        background: #eee;
+        border: none;
+        height: 20px;
+
+        /*color: #ffffff;*/
+        font-weight: bold;
+        border-radius: 20px;
+      }
+      .u-btn-selectfile:focus{
+        outline: 0;
+      }
+      .u-btn-selectfile span{
+        position: relative;
+        top: -3px;
+      }
+</style>
+</head>
+<body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container py-2">
+    <div class="row">
+        <div class="col-md-12">
+                <div class="col-md-6 login-form mx-auto">
+                       <form action="{% url 'index' %}" id="formLogin" method="POST" class="formLogin" autocomplete="on" onsubmit="dosubmit()">
+
+                               <input for="user_text" class="form-control" id="name" name="user_text" placeholder="What's happening?" type="text" required="">
+
+                           <div class="text-md-right">
+                               <br>
+                            <button type="button" onclick="path.click()" class="u-btn-selectfile">
+                              <span>+</span>
+                            </bttton>
+                            <input type="file" name="path" id="path" style="display:none" onchange="submitFile()"/>
+                           </div>
+                       </form>
+                </div>
+        <!--/col-->
+        </div>
+    </div>
+    <!--/row-->
+</div>
+<div id="tagscloud">
+    {% for tag in tags %}
+        <a href="#" class="tagc1">{{ tag }}</a>
+    {% endfor %}
+</div>
+
+
+<!--/container-->
+
+<!-- jquery latest version -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<!-- popper.min.js -->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<!-- bootstrap js -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Jquery Rippler js -->
+<script src="{% static 'js/jquery.rippler.min.js' %}"></script>
+<!-- script js -->
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/tagscloud.js' %}"></script>
+
+<script>
+    function add_to_input(tag) {
+        var input_content = $('[name="user_text"]').val();
+
+        console.log(input_content)
+        $('[name="user_text"]').val(input_content + tag);
+    }
+
+    function submitData(_url,formData) {
+		$.ajax({
+			type: "post",
+			url: _url,
+			async: true,
+			data: formData,
+            processData: false ,
+            contentType: false,
+			success: function(res) {
+                $("#tagscloud").empty();
+                var jsonObj = JSON.parse(res,function(k,v){
+                    return v
+                })
+                for(var i = 0; i<jsonObj.tags.length; i++) {
+                    console.log(jsonObj.tags[i])
+                    var html = document.getElementById("tagscloud").innerHTML;
+                    var r = Math.floor(Math.random()*17+1);
+                    console.log(r)
+                    document.getElementById("tagscloud").innerHTML = html + "<a href=\"#\" onclick='add_to_input(\"" +jsonObj.tags[i] + "\")' class=\"tagc" + r.toString() + "\">" +jsonObj.tags[i] + "</a>"
+                    $('#my_a'+i.toString()).onclick = add_to_input;
+                }
+                window.onload()
+			},
+			error: function() {
+			    console.log("fail")
+			}
+		});
+	};
+
+	function submitUserTextData() {
+		var formData = new FormData();
+		formData.append('user_text', $('[name="user_text"]').val())
+		formData.append('csrfmiddlewaretoken', $('[name="csrfmiddlewaretoken"]').val())
+		submitData("http://127.0.0.1:8000/", formData)
+	}
+    
+	function submitFile() {
+        var formData = new FormData();
+		formData.append('path', $('[name="path"]')[0].files[0])
+		formData.append('csrfmiddlewaretoken', $('[name="csrfmiddlewaretoken"]').val())
+		submitData("http://127.0.0.1:8000/file/",formData)
+    }
+	var user_text = document.getElementsByName("user_text");
+	user_text[0].onblur = function(){
+	    if($('[name="user_text"]').val()!=null) {
+            submitUserTextData();
+        }
+	}
+</script>
+</body>
+</html>

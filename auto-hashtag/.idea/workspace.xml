@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dd944994-5b10-4e7e-94d9-80061d568b90" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1aXAxzgQbihASJRRlqFTqPyTnew" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="untitled" type="Python.DjangoServer" factoryName="Django server">
+      <module name="untitled" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="untitled.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dd944994-5b10-4e7e-94d9-80061d568b90" name="Default Changelist" comment="" />
+      <created>1586871815819</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586871815819</updated>
+      <workItem from="1586871822401" duration="17049000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="2517" height="297" key="GridCell.Tab.0.bottom" timestamp="1586930483655">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="297" key="GridCell.Tab.0.bottom/-1680.290.1680.1010/0.0.2560.1400@0.0.2560.1400" timestamp="1586930483655" />
+    <state width="1637" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400/-1680.290.1680.1010@-1680.290.1680.1010" timestamp="1586908994987" />
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400/-1680.290.1680.1010@0.0.2560.1400" timestamp="1586911633898" />
+    <state width="2517" height="297" key="GridCell.Tab.0.center" timestamp="1586930483655">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="297" key="GridCell.Tab.0.center/-1680.290.1680.1010/0.0.2560.1400@0.0.2560.1400" timestamp="1586930483655" />
+    <state width="1637" height="401" key="GridCell.Tab.0.center/0.0.2560.1400/-1680.290.1680.1010@-1680.290.1680.1010" timestamp="1586908994987" />
+    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400/-1680.290.1680.1010@0.0.2560.1400" timestamp="1586911633898" />
+    <state width="2517" height="297" key="GridCell.Tab.0.left" timestamp="1586930483655">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="297" key="GridCell.Tab.0.left/-1680.290.1680.1010/0.0.2560.1400@0.0.2560.1400" timestamp="1586930483655" />
+    <state width="1637" height="401" key="GridCell.Tab.0.left/0.0.2560.1400/-1680.290.1680.1010@-1680.290.1680.1010" timestamp="1586908994987" />
+    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400/-1680.290.1680.1010@0.0.2560.1400" timestamp="1586911633898" />
+    <state width="2517" height="297" key="GridCell.Tab.0.right" timestamp="1586930483655">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="297" key="GridCell.Tab.0.right/-1680.290.1680.1010/0.0.2560.1400@0.0.2560.1400" timestamp="1586930483655" />
+    <state width="1637" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-1680.290.1680.1010@-1680.290.1680.1010" timestamp="1586908994987" />
+    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-1680.290.1680.1010@0.0.2560.1400" timestamp="1586911633898" />
+    <state x="-1164" y="528" width="647" height="534" key="find.popup" timestamp="1586908457964">
+      <screen x="-1680" y="290" width="1680" height="1010" />
+    </state>
+    <state x="-1164" y="528" width="647" height="534" key="find.popup/0.0.2560.1400/-1680.290.1680.1010@-1680.290.1680.1010" timestamp="1586908457964" />
+  </component>
+</project>
