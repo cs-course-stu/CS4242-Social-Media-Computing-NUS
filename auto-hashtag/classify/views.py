@@ -9,7 +9,7 @@ from django.views import View
 
 from classify.forms import MyForm
 from classify.textclassifier import TextClassifier
-
+from classify.ImageProcessor import ImageProcessor
 
 def upload_file(file):
     if file is not None:
@@ -53,6 +53,12 @@ class FileView(View):
         file = request.FILES.get('path')
         file_path = upload_file(file)
         print(file_path)
-        content = {'tags': ["4多云", "5下雪", "6闪电"]}
+        imageProcessor = ImageProcessor(ckpt='E:/PycharmProject/CS4242-Social-Media-Computing-NUS/model/model.ckpt',
+                                        valdir='E:/PycharmProject/CS4242-Social-Media-Computing-NUS/auto-hashtag/upload')
+        result = imageProcessor.predict()
+        show_tags = []
+        for item in result:
+            show_tags += item
+        content = {'tags': show_tags}
         result = json.dumps(content, cls=JSONEncoder, ensure_ascii=False)
         return HttpResponse(result)
