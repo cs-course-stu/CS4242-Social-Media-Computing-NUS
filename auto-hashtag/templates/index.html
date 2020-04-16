@@ -122,9 +122,6 @@ function dosubmit(){
     <!--/row-->
 </div>
 <div id="tagscloud">
-    {% for tag in tags %}
-        <a href="#" class="tagc1">{{ tag }}</a>
-    {% endfor %}
 </div>
 
 
@@ -143,6 +140,8 @@ function dosubmit(){
 <script src="{% static 'js/tagscloud.js' %}"></script>
 
 <script>
+    window.refreshTags()
+    lastSubmitType = "text"
     function add_to_input(tag) {
         var input_content = $('[name="user_text"]').val();
 
@@ -159,19 +158,20 @@ function dosubmit(){
             processData: false ,
             contentType: false,
 			success: function(res) {
-                $("#tagscloud").empty();
                 var jsonObj = JSON.parse(res,function(k,v){
                     return v
                 })
                 for(var i = 0; i<jsonObj.tags.length; i++) {
-                    console.log(jsonObj.tags[i])
                     var html = document.getElementById("tagscloud").innerHTML;
                     var r = Math.floor(Math.random()*17+1);
-                    console.log(r)
-                    document.getElementById("tagscloud").innerHTML = html + "<a href=\"#\" onclick='add_to_input(\"" +jsonObj.tags[i] + "\")' class=\"tagc" + r.toString() + "\">" +jsonObj.tags[i] + "</a>"
+                    if(lastSubmitType=="text") {
+                        document.getElementById("tagscloud").innerHTML = html + "<a href=\"#\" name = \"text_a\" onclick='add_to_input(\"" + jsonObj.tags[i] + "\")' class=\"tagc" + r.toString() + "\">" + jsonObj.tags[i] + "</a>"
+                    } else {
+                        document.getElementById("tagscloud").innerHTML = html + "<a href=\"#\" name = \"img_a\" onclick='add_to_input(\"" + jsonObj.tags[i] + "\")' class=\"tagc" + r.toString() + "\">" + jsonObj.tags[i] + "</a>"
+                    }
                     $('#my_a'+i.toString()).onclick = add_to_input;
                 }
-                window.onload()
+                window.refreshTags()
 			},
 			error: function() {
 			    console.log("fail")
@@ -180,6 +180,8 @@ function dosubmit(){
 	};
 
 	function submitUserTextData() {
+        lastSubmitType = "text"
+	    $('[name="text_a"]').remove();
 		var formData = new FormData();
 		formData.append('user_text', $('[name="user_text"]').val())
 		formData.append('csrfmiddlewaretoken', $('[name="csrfmiddlewaretoken"]').val())
@@ -187,6 +189,8 @@ function dosubmit(){
 	}
     
 	function submitFile() {
+        lastSubmitType = "img"
+	    $('[name="img_a"]').remove();
         var formData = new FormData();
 		formData.append('path', $('[name="path"]')[0].files[0])
 		formData.append('csrfmiddlewaretoken', $('[name="csrfmiddlewaretoken"]').val())

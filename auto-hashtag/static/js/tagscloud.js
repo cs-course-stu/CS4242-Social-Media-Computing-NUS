@@ -12,14 +12,14 @@ var mouseY = 10;
 var howElliptical = 1;
 var aA = null;
 var oDiv = null;
-window.onload=function ()
+window.refreshTags=function ()
 {
     aA = null;
     mcList = [];
     oDiv = null;
 	var i=0;
 	var oTag=null;
-	oDiv=document.getElementById('tagscloud');
+	oDiv=document.getElementById("tagscloud");
 	aA=oDiv.getElementsByTagName('a');
 	for(i=0;i<aA.length;i++)
 	{
