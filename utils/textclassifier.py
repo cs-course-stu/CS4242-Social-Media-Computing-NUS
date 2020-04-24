@@ -82,9 +82,9 @@ class TextClassifier:
         
     def save_to_file(self):
         self.train_file.to_csv(self.in_dir + '/' +
-                               "train.csv", index=False, header=False)
+                               "train.csv", index=False, header=True)
         self.valid_file.to_csv(self.in_dir + '/' +
-                               "valid.csv", index=False, header=False)
+                               "valid.csv", index=False, header=True)
 
     """ make prediction given text
     Args:
