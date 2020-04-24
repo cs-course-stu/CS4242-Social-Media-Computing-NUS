@@ -10,13 +10,11 @@ https://digiphile.info/2009/06/11/top-50-twitter-acronyms-abbreviations-and-init
 https://bitrebels.com/social/twitter-dictionary-35-twitter-abbreviations/
 """
 class TextProcessor:
-    """ class TextProcessor is a class dealing with crawling tweets
+    """ class TextProcessor is a class dealing with multiple methods for processing data
     Args:
         in_dir: working directory
-        consumer_key: Twitter API: consumer_key
-        consumer_secret: Twitter API: consumer_secret
-        access_token: Twitter API: access_token
-        access_token_secret: Twitter API: access_token_secret
+        dictionary_file: dictionary file includes special Twitter terms
+        hashtag_file: hashtag file includes all hashtags we need to classify
     """
 
     def __init__(self, in_dir, dictionary_file, hashtag_file):
