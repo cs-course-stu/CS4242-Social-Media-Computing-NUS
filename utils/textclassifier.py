@@ -4,6 +4,14 @@ import numpy as np
 from fast_bert.prediction import BertClassificationPredictor
 
 class TextClassifier:
+    """ class TextClassifier is a class dealing with text classification
+    Args:
+        in_dir: working directory
+        dictionary_file: dictionary file includes special Twitter terms
+        hashtag_file: hashtag file includes all hashtags we need to classify
+        input_file: input file is csv format containing crawl data
+        model_dir: directory of model output
+    """
 
     def __init__(self, in_dir, dictionary_file, hashtag_file, input_file, model_dir="model_out"):
         self.in_dir = in_dir
@@ -15,6 +23,11 @@ class TextClassifier:
         self.train_file = None
         self.valid_file = None
         self.model_dir = model_dir
+    
+    """ load and process the raw crawl data
+    Returns:
+        dat.drop(columns=['hashtag']): formal format of data
+    """
 
     def load_raw_data(self):
         textprocessor = TextProcessor(
@@ -55,16 +68,31 @@ class TextClassifier:
                 dat[tmp_list[j]][i] = 1
         return dat.drop(columns=['hashtag'])
 
+    """ split the data into train and valid data
+    Args:
+        data: formal processed crawl data
+    """
+
     def split_data(self,data):
         self.train_file, self.valid_file = np.split(
             data.sample(frac=1), [int(.7*len(data))])
+    
+    """ save the train and valid data into file
+    """
         
     def save_to_file(self):
         self.train_file.to_csv(self.in_dir + '/' +
                                "train.csv", index=False, header=False)
         self.valid_file.to_csv(self.in_dir + '/' +
                                "valid.csv", index=False, header=False)
-            
+
+    """ make prediction given text
+    Args:
+        text: free text to be classified
+    
+    Returns:
+        rst_list: a list contains top 7 hashtags accroding to the classification
+    """
     def predict(self, text):
         predictor = BertClassificationPredictor(
             model_path=self.in_dir + '/' +self.model_dir,
@@ -84,7 +112,7 @@ if __name__ == '__main__':
     
     # data = textclassifier.load_raw_data()
     # print(data[34234:34235])
-    string = "fuck trump"
+    string = "i like running"
     print(string)
     result = textclassifier.predict(string)
     print(result)
